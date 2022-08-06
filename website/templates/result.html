@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<style>
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+
+    <div class="container pt-5">
+        <p>{{ max_support_parameter }}</p>
+        <p>{{ max_confidence_parameter }}</p>
+        <div class="row">
+            <div class="column">
+                <h2>Aturan Asosiasi Apriori</h2>
+                <table class="table table-sm table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="text-center">No</th>
+                        <th scope="col">Antecedent</th>
+                        <th scope="col">Consequent</th>
+                        <th scope="col">Nilai Support</th>
+                        <th scope="col">Nilai Confidence</th>
+                        <th scope="col">Lift Ratio</th>
+                    </tr>
+                    </thead>
+                <tbody>
+                {% if apriori %}
+                {% for rule_apriori in apriori %}
+                    <tr>
+                        <td align="center">{{ forloop.counter }}</td>
+                        <td>{{ rule_apriori.antecedents }}</td>
+                        <td>{{ rule_apriori.consequents }}</td>
+                        <td>{{ rule_apriori.support|floatformat:2 }}</td>
+                        <td>{{ rule_apriori.confidence|floatformat:2 }}</td>
+                        <td>{{ rule_apriori.lift|floatformat:2 }}</td>
+                    </tr>
+                {% endfor %}
+                    <tr>
+                        <td><b>Jumlah Rule</b></td>
+                        <td colspan="4">{{ jumlah_rules_apriori }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Kekuatan Aturan</b></td>
+                        <td colspan="4">{{ kekuatan_aturan_apriori }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Kecepatan Pemrosesan</b></td>
+                        <td colspan="4">{{ kecepatan_apriori }}ms</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+                </table>
+            </div>
+            <div class="column">
+                <h2>Aturan Asosiasi Fp-Growth</h2>
+                <table class="table table-bordered table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="text-center">No</th>
+                        <th scope="col">Antecedent</th>
+                        <th scope="col">Consequent</th>
+                        <th scope="col">Nilai Support</th>
+                        <th scope="col">Nilai Confidence</th>
+                        <th scope="col">Lift Ratio</th>
+                    </tr>
+                    </thead>
+                <tbody>
+                {% if fpgrowth %}
+                {% for rule_fpgrowth in fpgrowth %}
+                    <tr>
+                        <td align="center">{{ forloop.counter }}</td>
+                        <td>{{ rule_fpgrowth.antecedents }}</td>
+                        <td>{{ rule_fpgrowth.consequents }}</td>
+                        <td>{{ rule_fpgrowth.support|floatformat:2 }}</td>
+                        <td>{{ rule_fpgrowth.confidence|floatformat:2 }}</td>
+                        <td>{{ rule_fpgrowth.lift|floatformat:2 }}</td>
+                    </tr>
+                {% endfor %}
+                    <tr>
+                        <td><b>Jumlah Rule</b></td>
+                        <td colspan="4">{{ jumlah_rules_fpgrowth }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Kekuatan Aturan</b></td>
+                        <td colspan="4">{{ kekuatan_aturan_fpgrowth }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Kecepatan Pemrosesan</b></td>
+                        <td colspan="4">{{ kecepatan_fpgrowth }}ms</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+                </table>
+            </div>
+        </div>
+            <div>
+            <form method="post" id="post-rekomendasi">
+                {% csrf_token %}
+                <div class="form-group">
+                    <b><label for="kombinasi">Kombinasi Itemset Rekomendasi Produk : </label></b>
+                    <input name="kombinasi_itemset" id="kombinasi_itemset" type="number" min="2" max="5" step="1" value="2" placeholder="Kombinasi Itemset" size="4" required>
+                </div>
+                <button name="submit_rekomendasi" type="submit" value="Submit" class="btn btn-primary">Submit</button>
+            </form>
+            </div>
+    </div>
+    <div class="container pt-5">
+        <h1>Rekomendasi Produk</h1>
+        <div class="row">
+            <div class="column">
+                <h2>Apriori</h2>
+                <table class="table table-sm table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="text-center">No</th>
+                        <th scope="col">Antecedent</th>
+                        <th scope="col">Consequent</th>
+                        <th scope="col">Nilai Support</th>
+                        <th scope="col">Nilai Confidence</th>
+                        <th scope="col">Lift Ratio</th>
+                    </tr>
+                    </thead>
+                <tbody>
+                {% if rec_apriori %}
+                {% for rec_rule_apriori in rec_apriori %}
+                    <tr>
+                        <td align="center">{{ forloop.counter }}</td>
+                        <td>{{ rec_rule_apriori.antecedents }}</td>
+                        <td>{{ rec_rule_apriori.consequents }}</td>
+                        <td>{{ rec_rule_apriori.support|floatformat:2 }}</td>
+                        <td>{{ rec_rule_apriori.confidence|floatformat:2 }}</td>
+                        <td>{{ rec_rule_apriori.lift|floatformat:2 }}</td>
+                    </tr>
+                {% endfor %}
+                {% endif %}
+                </tbody>
+                </table>
+            </div>
+            <div class="column">
+                <h2>Fp-Growth</h2>
+                <table class="table table-bordered table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="text-center">No</th>
+                        <th scope="col">Antecedent</th>
+                        <th scope="col">Consequent</th>
+                        <th scope="col">Nilai Support</th>
+                        <th scope="col">Nilai Confidence</th>
+                        <th scope="col">Lift Ratio</th>
+                    </tr>
+                    </thead>
+                <tbody>
+                {% if rec_fpgrowth %}
+                {% for rec_rule_fpgrowth in rec_fpgrowth %}
+                    <tr>
+                        <td align="center">{{ forloop.counter }}</td>
+                        <td>{{ rec_rule_fpgrowth.antecedents }}</td>
+                        <td>{{ rec_rule_fpgrowth.consequents }}</td>
+                        <td>{{ rec_rule_fpgrowth.support|floatformat:2 }}</td>
+                        <td>{{ rec_rule_fpgrowth.confidence|floatformat:2 }}</td>
+                        <td>{{ rec_rule_fpgrowth.lift|floatformat:2 }}</td>
+                    </tr>
+                {% endfor %}
+                {% endif %}
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
