@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<div class="container pt-4">
+    <center><h1>Data Transaksi Penjualan PT. Agro Express Indonesia</h1></center>
+    <div class="row justify-content-md-left">
+        <div class="col-md-5">
+            <div>
+        		<div class="row">
+                    <div>
+                    <br>
+                    <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                        <b><label for="import">Import Data Excel</label></b>
+                        <input type="file" name="myfile" class="form-control">
+                        <button name="submit_excel" type="submit" class="btn btn-success">Upload</button>
+                    </form>
+                    <br/>
+                    </div>
+            		<table class="table">
+                	<thead>
+                		<tr>
+                		<th scope="col">No. Invoice</th>
+                		<th scope="col">Almond</th>
+                		<th scope="col">Alpukat</th>
+                		<th scope="col">Anggur</th>
+                		<th scope="col">Apel</th>
+                		<th scope="col">Asam Bangkok</th>
+                		<th scope="col">Avomango</th>
+                		<th scope="col">Blueberry Argentina</th>
+                		<th scope="col">Buah Naga</th>
+                		<th scope="col">Buah Tin</th>
+                		<th scope="col">Cherry Australia</th>
+                		<th scope="col">Chia Seed</th>
+                		<th scope="col">Delima</th>
+                		<th scope="col">Durian Monthong Frozen</th>
+                		<th scope="col">GrapeOla</th>
+                		<th scope="col">Jambu Kristal</th>
+                		<th scope="col">Jeruk</th>
+                		<th scope="col">Kiwi</th>
+                		<th scope="col">Kurma</th>
+                		<th scope="col">Lemon</th>
+                		<th scope="col">Lengkeng Bangkok</th>
+                		<th scope="col">Mangga</th>
+                		<th scope="col">Melon Golden</th>
+                		<th scope="col">Nanas Honi</th>
+                		<th scope="col">Nectarin Australia</th>
+                		<th scope="col">Peach Australia</th>
+                		<th scope="col">Pear</th>
+                		<th scope="col">Pisang Cavendisk</th>
+                		<th scope="col">Plum</th>
+                		<th scope="col">Salak Pondok</th>
+                		</tr>
+                	</thead>
+                	<tbody>
+                	{% for buah in Data %}
+                    	<tr>
+                    	<th scope="row">{{ buah.invoice }}</th>
+                    	<td>{{ buah.almond }}</td>
+                    	<td>{{ buah.alpukat }}</td>
+                    	<td>{{ buah.anggur }}</td>
+                    	<td>{{ buah.apel }}</td>
+                    	<td>{{ buah.asam_bangkok }}</td>
+                        <td>{{ buah.avomango }}</td>
+                        <td>{{ buah.blueberry_arg }}</td>
+                        <td>{{ buah.buah_naga }}</td>
+                        <td>{{ buah.buah_tin }}</td>
+                        <td>{{ buah.cherry_aus }}</td>
+                        <td>{{ buah.chia_seed }}</td>
+                        <td>{{ buah.delima }}</td>
+                        <td>{{ buah.durian }}</td>
+                        <td>{{ buah.grapeola }}</td>
+                        <td>{{ buah.jambu_kristal }}</td>
+                        <td>{{ buah.jeruk }}</td>
+                        <td>{{ buah.kiwi }}</td>
+                        <td>{{ buah.kurma }}</td>
+                        <td>{{ buah.lemon }}</td>
+                        <td>{{ buah.lengkeng }}</td>
+                        <td>{{ buah.mangga }}</td>
+                        <td>{{ buah.melon_golden }}</td>
+                        <td>{{ buah.nanas_honi }}</td>
+                        <td>{{ buah.nectarin_aus }}</td>
+                        <td>{{ buah.peach_aus }}</td>
+                        <td>{{ buah.pear }}</td>
+                        <td>{{ buah.pisang }}</td>
+                        <td>{{ buah.plum }}</td>
+                        <td>{{ buah.salak_pondoh }}</td>
+                    	</tr>
+                	{% endfor %}
+                	</tbody>
+            		</table>
+        		</div>
+    		</div>
+    		<br>
+            <div>
+            <form method="post" id="parameter-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <b><label for="kombinasi">Minimal Rule yang Terbentuk : </label></b>
+                    <input name="min_rule" id="min_rule" type="number" min="0" max="10" step="1" value="0" placeholder="Minimal Rule yang Terbentuk" size="4" required>
+                </div>
+                <button name="parameter_tuning" type="submit" value="Submit" class="btn btn-primary">Parameter Tuning</button>
+            </form>
+            <br>
+            </div>
+            <div>
+            <form method="post" id="post-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <b><label for="min_support">Minimum Support</label></b>
+                    <input name="minsup" id="minsup" type="number" min="0.1" max="1.0" step="0.05" class="form-control"  placeholder="Minimum Support" required>
+                </div>
+                <div class="form-group">
+                    <b><label for="min_confidence">Minimum Confidence</label></b>
+                    <input name="minconf" id="minconf" type="number" min="0.1" max="1.0" step="0.05" class="form-control"  placeholder="Minimum Confidence" required>
+                </div>
+                <button name="submit_rule" type="submit" value="Submit" class="btn btn-primary">Submit</button>
+                <!-- data-toggle="modal" data-target="#exampleModal" -->
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
