@@ -4,7 +4,7 @@
     {
       "src": "datamining/wsgi.py",
       "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb", "runtime": "python3.9", "excludeFiles": "**/*.html" }
+      "config": { "maxLambdaSize": "15mb", "runtime": "python3.9", "excludeFiles": "**/*.html, **/*.exe, **/*.xlsx, **/*.csv" }
     },
     {
       "src": "build_files.sh",
