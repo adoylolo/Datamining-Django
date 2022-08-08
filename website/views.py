@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import data
 from .resources import dataResource
 import datetime as dt
-import pandas as pd
+import pandas_lite as pd
 import os
 import json
 import time
